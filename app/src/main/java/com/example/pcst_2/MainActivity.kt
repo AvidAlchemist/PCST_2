@@ -37,6 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.pcst_2.data.Game
+import com.example.pcst_2.ui.login.LoginScreen
 import com.example.pcst_2.ui.theme.PCST_2Theme
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -47,112 +48,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val launcher = rememberLauncherForActivityResult(
-                contract = ActivityResultContracts.PickVisualMedia()
-            ) { uri ->
-                if (uri == null) return@rememberLauncherForActivityResult
-
-                /*Использование Storage..*/
-
-            }
-
-            MainScreen()
+            LoginScreen()
         }
     }
-}
-
-@Composable
-fun MainScreen() {
-    val context = LocalContext.current
-    val fs = Firebase.firestore
-    val list = remember {
-        mutableStateOf(emptyList<Game>())
-    }
-
-    fs.collection("games").addSnapshotListener { snapshot, exception ->
-        list.value = snapshot?.toObjects(Game::class.java) ?: emptyList()
-    }
-
-
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.SpaceBetween
-    ) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.8f)
-        ) {
-            items(list.value) { game ->
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(10.dp)
-                ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        AsyncImage(
-                            model = R.drawable.joystick,
-                            contentDescription = null,
-                            modifier = Modifier
-                                .height(100.dp)
-                                .width(100.dp)
-                        )
-                        Text(
-                            text = game.title,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .wrapContentWidth()
-
-                        )
-                    }
-                }
-            }
-        }
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        Button(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp),
-            onClick = {
-                saveGame(fs)
-            }) {
-            Text(
-                text = "Add book"
-            )
-        }
-    }
-
-}
-
-private fun bitmapToByteArray(context: Context, uri: Uri): ByteArray {
-    val inputStream = context.contentResolver.openInputStream(uri)
-    val bitmap = BitmapFactory.decodeStream(inputStream)
-    val baos = ByteArrayOutputStream()
-    bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos)
-    return baos.toByteArray()
-}
-
-private fun saveGame(fs: FirebaseFirestore /*,url : String*/) {
-    fs.collection("games")
-        .document()
-        .set(
-            Game(
-                "RSA",
-                "Theory about RSA",
-                "Count smth",
-                "Let's make..",
-                "Don't forget about",
-                "1",
-                "what is",
-                "2",
-                "3",
-                "4",
-                "5"
-            )
-        )
 }
