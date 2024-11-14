@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.FirstBaseline
 import androidx.compose.ui.unit.dp
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -32,8 +33,8 @@ fun LoginScreen() {
         mutableStateOf("")
     }
 
-
-    Column(modifier = Modifier.fillMaxSize(),
+    Column(
+        modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -46,21 +47,70 @@ fun LoginScreen() {
         })
         Spacer(modifier = Modifier.height(10.dp))
         Button(onClick = {
+            signIn(auth, emailState.value, passwordState.value)
+        }) {
+            Text(text = "Sign In")
+        }
+        Button(onClick = {
             signUp(auth, emailState.value, passwordState.value)
         }) {
             Text(text = "Sign Up")
+        }
+        Button(onClick = {
+            signOut(auth)
+        }) {
+            Text(text = "Sign Out")
+        }
+        Button(onClick = {
+            deleteAccount(auth, emailState.value, passwordState.value)
+        }) {
+            Text(text = "Delete account")
         }
     }
 
 }
 
-private fun signUp(auth: FirebaseAuth, email : String, password : String) {
+private fun signUp(auth: FirebaseAuth, email: String, password: String) {
     auth.createUserWithEmailAndPassword(email, password)
         .addOnCompleteListener {
-            if(it.isSuccessful) {
+            if (it.isSuccessful) {
                 Log.d("MyLog", "Sign Up successful!")
             } else {
                 Log.d("MyLog", "Sign Up failed!")
+            }
+        }
+}
+
+private fun signIn(auth: FirebaseAuth, email: String, password: String) {
+    auth.signInWithEmailAndPassword(email, password)
+        .addOnCompleteListener {
+            if (it.isSuccessful) {
+                Log.d("MyLog", "Sign In successful!")
+            } else {
+                Log.d("MyLog", "Sign In failed!")
+            }
+        }
+}
+
+private fun signOut(auth: FirebaseAuth) {
+    auth.signOut()
+}
+
+private fun deleteAccount(auth: FirebaseAuth, email: String, password: String) {
+    val credential = EmailAuthProvider.getCredential(email, password)
+    auth.currentUser?.reauthenticate(credential)
+        ?.addOnCompleteListener {
+            if (it.isSuccessful) {
+                auth.currentUser?.delete()
+                    ?.addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            Log.d("MyLog", "Delete successful!")
+                        } else {
+                            Log.d("MyLog", "Delete failed!")
+                        }
+                    }
+            } else {
+                Log.d("MyLog", "Reauthenticate failed!")
             }
         }
 }
