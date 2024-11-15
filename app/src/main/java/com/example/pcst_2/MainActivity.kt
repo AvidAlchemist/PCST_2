@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.pcst_2.data.Game
 import com.example.pcst_2.ui.login.LoginScreen
+import com.example.pcst_2.ui.main_screen.MainScreen
 import com.example.pcst_2.ui.theme.PCST_2Theme
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -48,7 +49,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            LoginScreen()
+            MainScreen()
         }
     }
 }
