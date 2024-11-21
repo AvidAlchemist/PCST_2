@@ -26,6 +26,7 @@ import androidx.compose.ui.layout.FirstBaseline
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.pcst_2.R
@@ -38,6 +39,13 @@ import com.google.firebase.ktx.Firebase
 @Composable
 fun LoginScreen() {
 
+    val auth = remember {
+        Firebase.auth
+    }
+
+    val errorState = remember {
+        mutableStateOf("")
+    }
     val emailState = remember {
         mutableStateOf("")
     }
@@ -102,13 +110,83 @@ fun LoginScreen() {
             passwordState.value = it
         }
         Spacer(modifier = Modifier.height(10.dp))
+        if(errorState.value.isNotEmpty()) {
+            Text(
+                text = errorState.value,
+                color = Color.Red,
+                textAlign = TextAlign.Center
+            )
+        }
         LoginButton(text = "Sign In") {
-
+            signIn(
+                auth = auth,
+                emailState.value,
+                passwordState.value,
+                onSignInSuccess = {
+                    Log.d("MyLog", "Sign In Success")
+                },
+                onSignInFailure = { error ->
+                    errorState.value = error
+                }
+            )
         }
         LoginButton(text = "Sign Up") {
-
+            signUp(
+                auth = auth,
+                emailState.value,
+                passwordState.value,
+                onSignUpSuccess = {
+                    Log.d("MyLog", "Sign Up Success")
+                },
+                onSignUpFailure = {error ->
+                    errorState.value = error
+                }
+            )
         }
     }
+
+}
+fun signIn(
+    auth: FirebaseAuth,
+    email: String,
+    password: String,
+    onSignInSuccess: () -> Unit,
+    onSignInFailure: (String) -> Unit
+) {
+    if (email.isBlank() || password.isBlank()) {
+        onSignInFailure("Email and password cannot be empty")
+        return
+    }
+
+    auth.signInWithEmailAndPassword(email, password)
+        .addOnCompleteListener { task ->
+            if (task.isSuccessful) onSignInSuccess()
+        }
+        .addOnFailureListener{
+            onSignInFailure(it.message ?: "Sign In error")
+        }
+
+}
+
+fun signUp(
+    auth: FirebaseAuth,
+    email: String,
+    password: String,
+    onSignUpSuccess: () -> Unit,
+    onSignUpFailure: (String) -> Unit
+) {
+    if (email.isBlank() || password.isBlank()) {
+        onSignUpFailure("Email and password cannot be empty")
+        return
+    }
+
+    auth.createUserWithEmailAndPassword(email, password)
+        .addOnCompleteListener { task ->
+            if (task.isSuccessful) onSignUpSuccess()
+        }
+        .addOnFailureListener{
+            onSignUpFailure(it.message ?: "Sign Up error")
+        }
 
 }
 
