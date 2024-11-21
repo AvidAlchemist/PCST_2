@@ -35,10 +35,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import coil.compose.AsyncImage
 import com.example.pcst_2.data.Game
 import com.example.pcst_2.ui.login.LoginScreen
+import com.example.pcst_2.ui.login.data.LoginScreenObject
 import com.example.pcst_2.ui.main_screen.MainScreen
+import com.example.pcst_2.ui.main_screen.data.MainScreenDataObject
 import com.example.pcst_2.ui.theme.PCST_2Theme
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -49,7 +55,21 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            LoginScreen()
+            val navController = rememberNavController()
+
+            NavHost(navController = navController, startDestination = LoginScreenObject) {
+
+                composable<LoginScreenObject> {
+                    LoginScreen { navData ->
+                        navController.navigate(navData)
+                    }
+                }
+
+                composable<MainScreenDataObject> {navEntry ->
+                    val navData = navEntry.toRoute<MainScreenDataObject>()
+                    MainScreen(navData)
+                }
+            }
         }
     }
 }
