@@ -31,7 +31,7 @@ fun DrawerBody() {
         "Games",
         "Articles"
     )
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier.fillMaxSize().background(Color.Gray)) {
 
         Image(
             modifier = Modifier.fillMaxSize(),
