@@ -22,7 +22,7 @@ import com.example.pcst_2.R
 import com.example.pcst_2.ui.theme.ButtonColor
 
 @Composable
-fun DrawerHeader() {
+fun DrawerHeader(email : String) {
     Column(
         Modifier
             .fillMaxWidth()
@@ -42,6 +42,11 @@ fun DrawerHeader() {
             color = Color.White,
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold
+        )
+        Text(
+            text = email,
+            color = Color.White,
+            fontSize = 16.sp
         )
     }
 }
