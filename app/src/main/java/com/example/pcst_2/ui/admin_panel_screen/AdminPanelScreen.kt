@@ -24,7 +24,7 @@ fun AdminPanelScreen(navController: NavHostController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Button(onClick = { navController.navigate(AddGameScreenObject) }) {
+        Button(onClick = { navController.navigate(AddGameScreenObject()) }) {
             Text("Add New Game")
         }
         Spacer(modifier = Modifier.height(16.dp))

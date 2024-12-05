@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.pcst_2.R
 import com.example.pcst_2.data.Game
+import com.example.pcst_2.ui.data.AddGameScreenObject
 import com.example.pcst_2.ui.login.LoginButton
 import com.example.pcst_2.ui.login.RoundedCornerTextField
 import com.example.pcst_2.ui.theme.BoxFilterColor
@@ -38,41 +39,45 @@ import java.lang.Error
 @Preview(showBackground = true)
 @Composable
 fun AddGameScreen(
+    navData : AddGameScreenObject = AddGameScreenObject(),
     onSaved: () -> Unit = {}
 ) {
 
+    val key = remember {
+        mutableStateOf(navData.key)
+    }
     val title = remember {
-        mutableStateOf("")
+        mutableStateOf(navData.title)
     }
     val theoryText = remember {
-        mutableStateOf("")
+        mutableStateOf(navData.theoryText)
     }
     val taskTitle = remember {
-        mutableStateOf("")
+        mutableStateOf(navData.taskTitle)
     }
     val taskText = remember {
-        mutableStateOf("")
+        mutableStateOf(navData.taskText)
     }
     val taskTip = remember {
-        mutableStateOf("")
+        mutableStateOf(navData.taskTip)
     }
     val taskCorrect = remember {
-        mutableStateOf("")
+        mutableStateOf(navData.taskCorrect)
     }
     val testText = remember {
-        mutableStateOf("")
+        mutableStateOf(navData.testText)
     }
     val testCorrect = remember {
-        mutableStateOf("")
+        mutableStateOf(navData.testCorrect)
     }
     val testSomeAnswer_1 = remember {
-        mutableStateOf("")
+        mutableStateOf(navData.testSomeAnswer_1)
     }
     val testSomeAnswer_2 = remember {
-        mutableStateOf("")
+        mutableStateOf(navData.testSomeAnswer_2)
     }
     val testSomeAnswer_3 = remember {
-        mutableStateOf("")
+        mutableStateOf(navData.testSomeAnswer_3)
     }
 
     val firestore = remember {
@@ -218,6 +223,7 @@ fun AddGameScreen(
             saveGameToFireStore(
                 firestore = firestore,
                 game = Game(
+                    key = key.value,
                     title = title.value,
                     theoryText = theoryText.value,
                     taskTitle = taskTitle.value,
@@ -247,17 +253,24 @@ private fun saveGameToFireStore(
     onError: () -> Unit
 ) {
     val db = firestore.collection("games")
-    val key = db.document().id
-    db.document(key)
-        .set(
-            game.copy(
-                key = key
-            )
-        )
-        .addOnSuccessListener {
-            onSaved()
-        }
-        .addOnFailureListener {
-            onError()
-        }
+    if (game.key.isNotEmpty()) {
+        db.document(game.key)
+            .set(game)
+            .addOnSuccessListener {
+                onSaved()
+            }
+            .addOnFailureListener {
+                onError()
+            }
+    } else {
+        val newKey = db.document().id // Generate a new key
+        db.document(newKey)
+            .set(game.copy(key = newKey)) // Create a new document with the new key
+            .addOnSuccessListener {
+                onSaved()
+            }
+            .addOnFailureListener {
+                onError()
+            }
+    }
 }

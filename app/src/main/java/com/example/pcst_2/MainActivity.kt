@@ -34,7 +34,26 @@ class MainActivity : ComponentActivity() {
 
                 composable<MainScreenDataObject> { navEntry ->
                     val navData = navEntry.toRoute<MainScreenDataObject>()
-                    MainScreen(navData) {
+                    MainScreen(
+                        navData,
+                        navController,
+                        onGameEditClick = { game ->
+                            navController.navigate(AddGameScreenObject(
+                                key = game.key,
+                                title = game.title,
+                                theoryText = game.theoryText,
+                                taskTitle = game.taskTitle,
+                                taskText = game.taskText,
+                                taskTip = game.taskTip,
+                                taskCorrect = game.taskCorrect,
+                                testText = game.testText,
+                                testCorrect = game.testCorrect,
+                                testSomeAnswer_1 = game.testSomeAnswer_1,
+                                testSomeAnswer_2 = game.testSomeAnswer_2,
+                                testSomeAnswer_3 = game.testSomeAnswer_3
+                            ))
+                        }
+                    ) {
                         navController.navigate(AdminPanelScreenObject)
                     }
                 }
@@ -50,7 +69,8 @@ class MainActivity : ComponentActivity() {
                 }
 
                 composable<AddGameScreenObject> { navEntry ->
-                    AddGameScreen {
+                    val navData = navEntry.toRoute<AddGameScreenObject>()
+                    AddGameScreen(navData) {
                         navController.popBackStack()
                     }
                 }

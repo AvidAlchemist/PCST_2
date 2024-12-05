@@ -1,6 +1,5 @@
 package com.example.pcst_2.ui.main_screen
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,6 +17,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
 import com.example.pcst_2.data.Game
 import com.example.pcst_2.ui.main_screen.bottom_menu.BottomMenu
 import com.example.pcst_2.ui.main_screen.data.MainScreenDataObject
@@ -28,11 +28,17 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun MainScreen(navData: MainScreenDataObject,
-               onAdminClick: () -> Unit) {
+               navController: NavHostController,
+               onGameEditClick: (Game) -> Unit,
+               onAdminClick: () -> Unit
+) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
     val gamesListState = remember {
         mutableStateOf(emptyList<Game>())
+    }
+    val isAdminState = remember {
+        mutableStateOf(false)
     }
     
     LaunchedEffect(Unit) {
@@ -49,7 +55,11 @@ fun MainScreen(navData: MainScreenDataObject,
         drawerContent = {
             Column(Modifier.fillMaxWidth(0.7f)) {
                 DrawerHeader(email = navData.email)
-                DrawerBody{
+                DrawerBody(
+                    onAdmin = { isAdmin ->
+                        isAdminState.value = isAdmin
+                    }
+                ){
                     coroutineScope.launch {
                         drawerState.close()
                     }
@@ -69,7 +79,9 @@ fun MainScreen(navData: MainScreenDataObject,
                     .padding(paddingValues)
             ) {
                 items(gamesListState.value) { game ->
-                    GamesListItemUI(game)
+                    GamesListItemUI(navController,isAdminState.value, game) {book ->
+                        onGameEditClick(book)
+                    }
                 }
             }
         }
