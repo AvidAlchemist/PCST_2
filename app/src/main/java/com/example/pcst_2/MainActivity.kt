@@ -13,6 +13,12 @@ import com.example.pcst_2.ui.add_game_screen.AddGameScreen
 import com.example.pcst_2.ui.admin_panel_screen.AdminPanelScreen
 import com.example.pcst_2.ui.data.AddGameScreenObject
 import com.example.pcst_2.ui.data.AdminPanelScreenObject
+import com.example.pcst_2.ui.data.GameTaskScreenObject
+import com.example.pcst_2.ui.data.GameTestScreenObject
+import com.example.pcst_2.ui.data.GameTheoryScreenObject
+import com.example.pcst_2.ui.game_task_screen.GameTaskScreen
+import com.example.pcst_2.ui.game_test_screen.GameTestScreen
+import com.example.pcst_2.ui.game_theory_screen.GameTheoryScreen
 import com.example.pcst_2.ui.login.LoginScreen
 import com.example.pcst_2.ui.login.data.LoginScreenObject
 import com.example.pcst_2.ui.main_screen.MainScreen
@@ -48,9 +54,9 @@ class MainActivity : ComponentActivity() {
                                 taskCorrect = game.taskCorrect,
                                 testText = game.testText,
                                 testCorrect = game.testCorrect,
-                                testSomeAnswer_1 = game.testSomeAnswer_1,
-                                testSomeAnswer_2 = game.testSomeAnswer_2,
-                                testSomeAnswer_3 = game.testSomeAnswer_3
+                                testSomeAnswerOne = game.testSomeAnswerOne,
+                                testSomeAnswerTwo = game.testSomeAnswerTwo,
+                                testSomeAnswerThree = game.testSomeAnswerThree
                             ))
                         }
                     ) {
@@ -74,6 +80,22 @@ class MainActivity : ComponentActivity() {
                         navController.popBackStack()
                     }
                 }
+
+                composable<GameTheoryScreenObject> { navEntry ->
+                    val navData = navEntry.toRoute<GameTheoryScreenObject>()
+                    GameTheoryScreen(navData, navController)
+                }
+
+                composable<GameTaskScreenObject> { navEntry ->
+                    val navData = navEntry.toRoute<GameTaskScreenObject>()
+                    GameTaskScreen(navData, navController)
+                }
+
+                composable<GameTestScreenObject> { navEntry ->
+                    val navData = navEntry.toRoute<GameTestScreenObject>()
+                    GameTestScreen(navData, navController)
+                }
+
             }
         }
     }

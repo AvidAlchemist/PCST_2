@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -31,10 +30,8 @@ import com.example.pcst_2.ui.login.LoginButton
 import com.example.pcst_2.ui.login.RoundedCornerTextField
 import com.example.pcst_2.ui.theme.BoxFilterColor
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import java.lang.Error
 
 @Preview(showBackground = true)
 @Composable
@@ -70,14 +67,14 @@ fun AddGameScreen(
     val testCorrect = remember {
         mutableStateOf(navData.testCorrect)
     }
-    val testSomeAnswer_1 = remember {
-        mutableStateOf(navData.testSomeAnswer_1)
+    val testSomeAnswerOne = remember {
+        mutableStateOf(navData.testSomeAnswerOne)
     }
-    val testSomeAnswer_2 = remember {
-        mutableStateOf(navData.testSomeAnswer_2)
+    val testSomeAnswerTwo = remember {
+        mutableStateOf(navData.testSomeAnswerTwo)
     }
-    val testSomeAnswer_3 = remember {
-        mutableStateOf(navData.testSomeAnswer_3)
+    val testSomeAnswerThree = remember {
+        mutableStateOf(navData.testSomeAnswerThree)
     }
 
     val firestore = remember {
@@ -196,26 +193,26 @@ fun AddGameScreen(
         Spacer(modifier = Modifier.height(5.dp))
         RoundedCornerTextField(
             singleLine = false,
-            text = testSomeAnswer_1.value,
+            text = testSomeAnswerOne.value,
             label = "Some Answer 1"
         ) {
-            testSomeAnswer_1.value = it
+            testSomeAnswerOne.value = it
         }
         Spacer(modifier = Modifier.height(5.dp))
         RoundedCornerTextField(
             singleLine = false,
-            text = testSomeAnswer_2.value,
+            text = testSomeAnswerTwo.value,
             label = "Some Answer 2"
         ) {
-            testSomeAnswer_2.value = it
+            testSomeAnswerTwo.value = it
         }
         Spacer(modifier = Modifier.height(5.dp))
         RoundedCornerTextField(
             singleLine = false,
-            text = testSomeAnswer_3.value,
+            text = testSomeAnswerThree.value,
             label = "Some Answer 3"
         ) {
-            testSomeAnswer_3.value = it
+            testSomeAnswerThree.value = it
         }
         Spacer(modifier = Modifier.height(5.dp))
 
@@ -232,9 +229,9 @@ fun AddGameScreen(
                     taskCorrect = taskCorrect.value,
                     testText = testText.value,
                     testCorrect = testCorrect.value,
-                    testSomeAnswer_1 = testSomeAnswer_1.value,
-                    testSomeAnswer_2 = testSomeAnswer_2.value,
-                    testSomeAnswer_3 = testSomeAnswer_3.value
+                    testSomeAnswerOne = testSomeAnswerOne.value,
+                    testSomeAnswerTwo = testSomeAnswerTwo.value,
+                    testSomeAnswerThree = testSomeAnswerThree.value
                 ),
                 onSaved = {
                     onSaved()

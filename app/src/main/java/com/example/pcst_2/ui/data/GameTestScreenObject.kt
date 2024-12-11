@@ -1,7 +1,9 @@
-package com.example.pcst_2.data
+package com.example.pcst_2.ui.data
 
-//Нужно задать значение по умолчанию во избежание ошибки
-data class Game(
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class GameTestScreenObject(
     val key : String = "",
     val title : String = "",
     val theoryText : String = "",

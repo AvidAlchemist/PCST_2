@@ -1,41 +1,74 @@
 package com.example.pcst_2.ui.game_theory_screen
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.pcst_2.data.Game
+import com.example.pcst_2.ui.data.GameTaskScreenObject
+import com.example.pcst_2.ui.data.GameTheoryScreenObject
 
 
 @Composable
-fun GameTheoryScreen(navController: NavHostController, game: Game) {
+fun GameTheoryScreen(
+    navData : GameTheoryScreenObject = GameTheoryScreenObject(),
+    navController: NavHostController,
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
         Text(
-            text = game.title,
-            style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(bottom = 8.dp)
+            text = navData.title,
+            style = MaterialTheme.typography.headlineLarge, // Increased font
+            modifier = Modifier
+            .fillMaxWidth() // Make text fill the width
+            .wrapContentSize(Alignment.Center) // Center text horizontally
         )
-        Text(
-            text = game.theoryText,
-            style = MaterialTheme.typography.bodyMedium
-        )
-        Spacer(modifier = Modifier.weight(1f)) // Push button to the bottom
+        Box(
+            modifier = Modifier
+                .weight(1f) // Occupy remaining space
+                .verticalScroll(rememberScrollState()) // Enable vertical scrolling
+        ) {
+            Text(
+                text = navData.theoryText,
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
         Button(
-            onClick = {
-                // Navigate to the next page
-                //navController.navigate()
-            }
+            onClick = {// Navigate to the next page
+                navController.popBackStack()
+                navController.navigate(GameTaskScreenObject(
+                    key = navData.key,
+                    title = navData.title,
+                    theoryText = navData.theoryText,
+                    taskTitle = navData.taskTitle,
+                    taskText = navData.taskText,
+                    taskTip = navData.taskTip,
+                    taskCorrect = navData.taskCorrect,
+                    testText = navData.testText,
+                    testCorrect = navData.testCorrect,
+                    testSomeAnswerOne = navData.testSomeAnswerOne,
+                    testSomeAnswerTwo = navData.testSomeAnswerTwo,
+                    testSomeAnswerThree = navData.testSomeAnswerThree
+                ))
+
+            },
+            modifier = Modifier
+                .fillMaxWidth() // Make button fill the width
+                .wrapContentSize(Alignment.Center) // Center button horizontally
         ) {
             Text("Continue")
         }

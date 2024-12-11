@@ -29,6 +29,7 @@ import coil.compose.AsyncImage
 import com.example.pcst_2.R
 import com.example.pcst_2.data.Game
 import com.example.pcst_2.ui.add_game_screen.AddGameScreen
+import com.example.pcst_2.ui.data.GameTheoryScreenObject
 import com.example.pcst_2.ui.game_theory_screen.GameTheoryScreen
 
 @Composable
@@ -71,6 +72,22 @@ fun GamesListItemUI(
                 .fillMaxHeight()
                 .fillMaxWidth()
                 .weight(1f)
+                .clickable {
+                    navContoller.navigate(GameTheoryScreenObject(
+                        key = game.key,
+                        title = game.title,
+                        theoryText = game.theoryText,
+                        taskTitle = game.taskTitle,
+                        taskText = game.taskText,
+                        taskTip = game.taskTip,
+                        taskCorrect = game.taskCorrect,
+                        testText = game.testText,
+                        testCorrect = game.testCorrect,
+                        testSomeAnswerOne = game.testSomeAnswerOne,
+                        testSomeAnswerTwo = game.testSomeAnswerTwo,
+                        testSomeAnswerThree = game.testSomeAnswerThree
+                    ))
+                }
         )
 
         if(showEditButton) IconButton(onClick = {

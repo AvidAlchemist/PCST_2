@@ -79,8 +79,8 @@ fun MainScreen(navData: MainScreenDataObject,
                     .padding(paddingValues)
             ) {
                 items(gamesListState.value) { game ->
-                    GamesListItemUI(navController,isAdminState.value, game) {book ->
-                        onGameEditClick(book)
+                    GamesListItemUI(navController,isAdminState.value, game) {game ->
+                        onGameEditClick(game)
                     }
                 }
             }
