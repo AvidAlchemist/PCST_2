@@ -1,5 +1,6 @@
 package com.example.pcst_2.ui.main_screen
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,9 +36,12 @@ fun MainScreen(navData: MainScreenDataObject,
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
-    val gamesListState = remember {
-        mutableStateOf(emptyList<Game>())
+    val itemsListState = remember {
+        mutableStateOf(emptyList<Any>())
     }
+//    val articlesListState = remember {
+//        mutableStateOf(emptyList<Article>())
+//    }
     val isAdminState = remember {
         mutableStateOf(false)
     }
@@ -46,7 +50,7 @@ fun MainScreen(navData: MainScreenDataObject,
 
     LaunchedEffect(Unit) {
         getAllGames(db) { games ->
-            gamesListState.value = games
+            itemsListState.value = games
         }
     }
 
@@ -60,20 +64,42 @@ fun MainScreen(navData: MainScreenDataObject,
                 DrawerBody(
                     onAdmin = { isAdmin ->
                         isAdminState.value = isAdmin
+                    },
+                    onAdminClick = {
+                        coroutineScope.launch {
+                            drawerState.close()
+                        }
+                        onAdminClick()
+                    },
+                    onGamesClick = {
+                        getAllGames(db) { games ->
+                            itemsListState.value = games
+                        }
+                        coroutineScope.launch {
+                            drawerState.close()
+                        }
                     }
-                ){
-                    coroutineScope.launch {
-                        drawerState.close()
-                    }
-                    onAdminClick()
-                }
+                )
             }
 
         }
     ) {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
-            bottomBar = { BottomMenu() }
+            bottomBar = {
+                BottomMenu(
+                    onGamesClick = {
+                        getAllGames(db) { games ->
+                            itemsListState.value = games
+                        }
+                    },
+                    onArticlesClick = {
+                        getAllArticles(db) { articles ->
+                            itemsListState.value = articles
+                        }
+                    }
+                )
+            }
         ) { paddingValues ->
             LazyVerticalGrid(
                 columns = GridCells.Fixed(1),
@@ -81,9 +107,15 @@ fun MainScreen(navData: MainScreenDataObject,
                     .fillMaxSize()
                     .padding(paddingValues)
             ) {
-                items(gamesListState.value) { game ->
-                    GamesListItemUI(navController,isAdminState.value, game) {book ->
-                        onGameEditClick(book)
+                items(itemsListState.value) { item ->
+                    when(item) {
+                        is Game -> {
+                            GamesListItemUI(navController,isAdminState.value, item) { game ->
+                            onGameEditClick(game)
+                            }
+                            Log.d("NavigationTest", "GAME FOUND")
+                        }
+                        is Article -> Log.d("NavigationTest","ARTICLE FOUND")
                     }
                 }
             }
