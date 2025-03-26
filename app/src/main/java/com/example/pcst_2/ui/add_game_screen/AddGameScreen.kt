@@ -240,7 +240,7 @@ fun AddGameScreen(
                     onSaved()
                 },
                 onError = {}
-                )
+            )
 
         }
     }

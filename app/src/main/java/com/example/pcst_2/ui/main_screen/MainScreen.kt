@@ -18,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import com.example.pcst_2.data.Article
 import com.example.pcst_2.data.Game
 import com.example.pcst_2.ui.main_screen.bottom_menu.BottomMenu
 import com.example.pcst_2.ui.main_screen.data.MainScreenDataObject
@@ -40,15 +41,16 @@ fun MainScreen(navData: MainScreenDataObject,
     val isAdminState = remember {
         mutableStateOf(false)
     }
-    
+
+    val db = remember { Firebase.firestore }
+
     LaunchedEffect(Unit) {
-        val db = Firebase.firestore
-        getAllGames(db) { games ->  
+        getAllGames(db) { games ->
             gamesListState.value = games
         }
     }
-    
-    
+
+
     ModalNavigationDrawer(
         drawerState = drawerState,
         modifier = Modifier.fillMaxWidth(),
@@ -75,7 +77,8 @@ fun MainScreen(navData: MainScreenDataObject,
         ) { paddingValues ->
             LazyVerticalGrid(
                 columns = GridCells.Fixed(1),
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
                     .padding(paddingValues)
             ) {
                 items(gamesListState.value) { game ->
@@ -96,5 +99,16 @@ private fun getAllGames(
         .get()
         .addOnSuccessListener { task ->
             onGames(task.toObjects(Game::class.java))
+        }
+}
+
+private fun getAllArticles(
+    db : FirebaseFirestore,
+    onArticles: (List<Article>) -> Unit
+) {
+    db.collection("articles")
+        .get()
+        .addOnSuccessListener { task ->
+            onArticles(task.toObjects(Article::class.java))
         }
 }

@@ -195,8 +195,8 @@ fun signUp(
             if (task.isSuccessful) {
                 onSignUpSuccess(
                     MainScreenDataObject(
-                    uid = task.result.user?.uid!!,
-                    email = task.result.user?.email!!
+                        uid = task.result.user?.uid!!,
+                        email = task.result.user?.email!!
                     )
                 )
             }
@@ -206,4 +206,3 @@ fun signUp(
         }
 
 }
-

@@ -55,7 +55,7 @@ fun DrawerBody(
             onAdmin(isAdmin)
         }
     }
-    
+
     Box(modifier = Modifier
         .fillMaxSize()
         .background(Color.Gray)) {
