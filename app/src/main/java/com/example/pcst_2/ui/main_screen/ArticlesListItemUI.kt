@@ -8,6 +8,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,12 +22,19 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.pcst_2.R
 import com.example.pcst_2.data.Article
+import com.example.pcst_2.data.Game
 
 @Composable
-fun ArticlesListItemUI(article: Article) {
+fun ArticlesListItemUI(
+    navContoller : NavHostController,
+    showEditButton: Boolean = false,
+    article: Article,
+    onEditClick: (Article) -> Unit = {},
+    ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -31,8 +42,9 @@ fun ArticlesListItemUI(article: Article) {
             .border(
                 1.dp,
                 Color.Black,
-                RoundedCornerShape(15.dp)
-            )
+                RoundedCornerShape(15.dp),
+            ),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         AsyncImage(
             model = R.drawable.ic_articles,
@@ -54,6 +66,18 @@ fun ArticlesListItemUI(article: Article) {
             modifier = Modifier
                 .align(Alignment.CenterVertically)
                 .fillMaxHeight()
+                .fillMaxWidth()
+                .weight(1f)
         )
+
+        if(showEditButton) IconButton(onClick = {
+            onEditClick(article)
+        }) {
+            Icon(
+                Icons.Default.Edit,
+                contentDescription = ""
+            )
+
+        }
     }
 }

@@ -32,6 +32,7 @@ import kotlinx.coroutines.launch
 fun MainScreen(navData: MainScreenDataObject,
                navController: NavHostController,
                onGameEditClick: (Game) -> Unit,
+               onArticleEditClick: (Article) -> Unit,
                onAdminClick: () -> Unit
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -115,7 +116,12 @@ fun MainScreen(navData: MainScreenDataObject,
                             }
                             Log.d("NavigationTest", "GAME FOUND")
                         }
-                        is Article -> Log.d("NavigationTest","ARTICLE FOUND")
+                        is Article -> {
+                            ArticlesListItemUI(navController, isAdminState.value, item) { article ->
+                                onArticleEditClick(article)
+                            }
+                            Log.d("NavigationTest","ARTICLE FOUND")
+                            }
                     }
                 }
             }

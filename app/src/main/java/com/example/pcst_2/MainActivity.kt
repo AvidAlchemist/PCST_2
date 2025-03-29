@@ -52,6 +52,18 @@ class MainActivity : ComponentActivity() {
                                 testSomeAnswer_2 = game.testSomeAnswer_2,
                                 testSomeAnswer_3 = game.testSomeAnswer_3
                             ))
+                        },
+                        onArticleEditClick = {article ->
+                            navController.navigate(AddArticleScreenObject(
+                                key = article.key,
+                                articleTitle = article.articleTitle,
+                                articleText = article.articleText,
+                                articleTestText = article.articleTestText,
+                                articleTestCorrect = article.articleTestCorrect,
+                                articleTestSomeAnswer_1 = article.articleTestSomeAnswer_1,
+                                articleTestSomeAnswer_2 = article.articleTestSomeAnswer_2,
+                                articleTestSomeAnswer_3 = article.articleTestSomeAnswer_3
+                            ))
                         }
                     ) {
                         navController.navigate(AdminPanelScreenObject)
