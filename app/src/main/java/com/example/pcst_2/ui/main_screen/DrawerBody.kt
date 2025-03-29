@@ -38,7 +38,9 @@ import com.google.firebase.ktx.Firebase
 @Composable
 fun DrawerBody(
     onAdmin: (Boolean) -> Unit = {},
-    onAdminClick: () -> Unit = {}
+    onAdminClick: () -> Unit = {},
+    onGamesClick: () -> Unit = {},
+    //onArticlesClick: () -> Unit = {}
 ) {
     val categoriesList = listOf(
         "Games",
@@ -90,7 +92,9 @@ fun DrawerBody(
                     Column(
                         Modifier
                             .fillMaxWidth()
-                            .clickable { }
+                            .clickable {
+                                onGamesClick()
+                            }
                     ) {
                         Spacer(modifier = Modifier.height(12.dp))
                         Text(

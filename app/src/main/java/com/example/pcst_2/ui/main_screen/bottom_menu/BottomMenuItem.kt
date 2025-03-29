@@ -7,11 +7,11 @@ sealed class BottomMenuItem(
     val title : String,
     val iconId : Int
 ) {
-    object Home : BottomMenuItem(
-        route = "home",
-        title = "Home",
-        iconId = R.drawable.ic_home
-    )
+//    object Home : BottomMenuItem(
+//        route = "home",
+//        title = "Home",
+//        iconId = R.drawable.ic_home
+//    )
 
     object Games : BottomMenuItem(
         route = "games",
