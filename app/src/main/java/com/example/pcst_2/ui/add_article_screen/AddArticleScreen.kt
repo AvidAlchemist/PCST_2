@@ -26,6 +26,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.pcst_2.R
 import com.example.pcst_2.data.Article
+import com.example.pcst_2.ui.data.AddArticleScreenObject
+import com.example.pcst_2.ui.data.AddGameScreenObject
 import com.example.pcst_2.ui.login.LoginButton
 import com.example.pcst_2.ui.login.RoundedCornerTextField
 import com.example.pcst_2.ui.theme.BoxFilterColor
@@ -36,29 +38,33 @@ import com.google.firebase.ktx.Firebase
 @Composable
 @Preview(showBackground = true)
 fun AddArticleScreen(
+    navData : AddArticleScreenObject = AddArticleScreenObject(),
     onSaved: () -> Unit = {}
 ) {
 
+    val key = remember {
+        mutableStateOf(navData.key)
+    }
     val articleTitle = remember {
-        mutableStateOf("")
+        mutableStateOf(navData.articleTitle)
     }
     val articleText = remember {
-        mutableStateOf("")
+        mutableStateOf(navData.articleText)
     }
     val articleTestText = remember {
-        mutableStateOf("")
+        mutableStateOf(navData.articleTestText)
     }
     val articleTestCorrect = remember {
-        mutableStateOf("")
+        mutableStateOf(navData.articleTestCorrect)
     }
     val articleTestSomeAnswer_1 = remember {
-        mutableStateOf("")
+        mutableStateOf(navData.articleTestSomeAnswer_1)
     }
     val articleTestSomeAnswer_2 = remember {
-        mutableStateOf("")
+        mutableStateOf(navData.articleTestSomeAnswer_2)
     }
     val articleTestSomeAnswer_3 = remember {
-        mutableStateOf("")
+        mutableStateOf(navData.articleTestSomeAnswer_3)
     }
 
     val firestore = remember {
@@ -93,22 +99,22 @@ fun AddArticleScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.login_logo),
-            contentDescription = "logo",
-            modifier = Modifier.size(90.dp)
-        )
-        Spacer(modifier = Modifier.height(15.dp))
+//        Image(
+//            painter = painterResource(id = R.drawable.login_logo),
+//            contentDescription = "logo",
+//            modifier = Modifier.size(90.dp)
+//        )
+//        Spacer(modifier = Modifier.height(15.dp))
 
         Text(
             text = "Add new Article",
             color = Color.White,
             fontWeight = FontWeight.Bold,
-            fontSize = 25.sp,
+            fontSize = 20.sp,
             fontFamily = FontFamily.Serif
         )
 
-        Spacer(modifier = Modifier.height(15.dp))
+        Spacer(modifier = Modifier.height(10.dp))
         RoundedCornerTextField(
             singleLine = false,
             maxLines = 2,
@@ -117,7 +123,7 @@ fun AddArticleScreen(
         ) {
             articleTitle.value = it
         }
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(5.dp))
         RoundedCornerTextField(
             singleLine = false,
             maxLines = 2,
@@ -126,7 +132,7 @@ fun AddArticleScreen(
         ) {
             articleText.value = it
         }
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(5.dp))
         RoundedCornerTextField(
             singleLine = false,
             maxLines = 2,
@@ -135,7 +141,7 @@ fun AddArticleScreen(
         ) {
             articleTestText.value = it
         }
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(5.dp))
         RoundedCornerTextField(
             singleLine = false,
             text = articleTestCorrect.value,
@@ -143,7 +149,7 @@ fun AddArticleScreen(
         ) {
             articleTestCorrect.value = it
         }
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(5.dp))
         RoundedCornerTextField(
             singleLine = false,
             text = articleTestSomeAnswer_1.value,
@@ -151,7 +157,7 @@ fun AddArticleScreen(
         ) {
             articleTestSomeAnswer_1.value = it
         }
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(5.dp))
         RoundedCornerTextField(
             singleLine = false,
             text = articleTestSomeAnswer_2.value,
@@ -159,7 +165,7 @@ fun AddArticleScreen(
         ) {
             articleTestSomeAnswer_2.value = it
         }
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(5.dp))
         RoundedCornerTextField(
             singleLine = false,
             text = articleTestSomeAnswer_3.value,
@@ -167,7 +173,7 @@ fun AddArticleScreen(
         ) {
             articleTestSomeAnswer_3.value = it
         }
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(5.dp))
 
         LoginButton(text = "Save") {
             saveArticleToFireStore(
@@ -197,17 +203,24 @@ private fun saveArticleToFireStore(
     onError: () -> Unit
 ) {
     val db = firestore.collection("articles")
-    val key = db.document().id
-    db.document(key)
-        .set(
-            article.copy(
-                key = key
-            )
-        )
-        .addOnSuccessListener {
-            onSaved()
-        }
-        .addOnFailureListener {
-            onError()
-        }
+    if (article.key.isNotEmpty()) {
+        db.document(article.key)
+            .set(article)
+            .addOnSuccessListener {
+                onSaved()
+            }
+            .addOnFailureListener {
+                onError()
+            }
+    } else {
+        val newKey = db.document().id // Generate a new key
+        db.document(newKey)
+            .set(article.copy(key = newKey)) // Create a new document with the new key
+            .addOnSuccessListener {
+                onSaved()
+            }
+            .addOnFailureListener {
+                onError()
+            }
+    }
 }

@@ -50,7 +50,7 @@ fun MainScreen(navData: MainScreenDataObject,
     val db = remember { Firebase.firestore }
 
     LaunchedEffect(Unit) {
-        getAllGames(db) { games ->
+        getAllItems(db) { games ->
             itemsListState.value = games
         }
     }
@@ -72,9 +72,9 @@ fun MainScreen(navData: MainScreenDataObject,
                         }
                         onAdminClick()
                     },
-                    onGamesClick = {
-                        getAllGames(db) { games ->
-                            itemsListState.value = games
+                    onItemsClick = {
+                        getAllItems(db) { items ->
+                            itemsListState.value = items
                         }
                         coroutineScope.launch {
                             drawerState.close()
@@ -90,7 +90,7 @@ fun MainScreen(navData: MainScreenDataObject,
             bottomBar = {
                 BottomMenu(
                     onGamesClick = {
-                        getAllGames(db) { games ->
+                        getAllItems(db) { games ->
                             itemsListState.value = games
                         }
                     },
@@ -112,7 +112,7 @@ fun MainScreen(navData: MainScreenDataObject,
                     when(item) {
                         is Game -> {
                             GamesListItemUI(navController,isAdminState.value, item) { game ->
-                            onGameEditClick(game)
+                                onGameEditClick(game)
                             }
                             Log.d("NavigationTest", "GAME FOUND")
                         }
@@ -129,7 +129,7 @@ fun MainScreen(navData: MainScreenDataObject,
     }
 }
 
-private fun getAllGames(
+private fun getAllItems(
     db : FirebaseFirestore,
     onGames: (List<Game>) -> Unit
 ) {
