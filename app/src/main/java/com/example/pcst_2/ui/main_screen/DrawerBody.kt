@@ -39,7 +39,8 @@ import com.google.firebase.ktx.Firebase
 fun DrawerBody(
     onAdmin: (Boolean) -> Unit = {},
     onAdminClick: () -> Unit = {},
-    onItemsClick: () -> Unit = {},
+    onGamesClick: () -> Unit = {},
+    onArticlesClick: () -> Unit = {}
 ) {
     val categoriesList = listOf(
         "Games",
@@ -92,7 +93,12 @@ fun DrawerBody(
                         Modifier
                             .fillMaxWidth()
                             .clickable {
-                                onItemsClick()
+                                if(categoriesList[0] == item) {
+                                    onGamesClick()
+                                } else {
+                                    onArticlesClick()
+                                }
+
                             }
                     ) {
                         Spacer(modifier = Modifier.height(12.dp))

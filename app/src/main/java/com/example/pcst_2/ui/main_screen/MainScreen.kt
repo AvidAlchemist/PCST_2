@@ -1,6 +1,7 @@
 package com.example.pcst_2.ui.main_screen
 
 import android.util.Log
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,17 +12,21 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import com.example.pcst_2.data.Article
 import com.example.pcst_2.data.Game
 import com.example.pcst_2.ui.main_screen.bottom_menu.BottomMenu
+import com.example.pcst_2.ui.main_screen.bottom_menu.BottomMenuItem
 import com.example.pcst_2.ui.main_screen.data.MainScreenDataObject
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -40,17 +45,24 @@ fun MainScreen(navData: MainScreenDataObject,
     val itemsListState = remember {
         mutableStateOf(emptyList<Any>())
     }
-//    val articlesListState = remember {
-//        mutableStateOf(emptyList<Article>())
-//    }
+
+    val selectedBottomItemState = remember {
+        mutableStateOf(BottomMenuItem.Games.title)
+    }
+
     val isAdminState = remember {
+        mutableStateOf(false)
+    }
+
+    val isListEmptyState = remember {
         mutableStateOf(false)
     }
 
     val db = remember { Firebase.firestore }
 
     LaunchedEffect(Unit) {
-        getAllItems(db) { games ->
+        getAllGames(db) { games ->
+            isListEmptyState.value = games.isEmpty()
             itemsListState.value = games
         }
     }
@@ -72,8 +84,19 @@ fun MainScreen(navData: MainScreenDataObject,
                         }
                         onAdminClick()
                     },
-                    onItemsClick = {
-                        getAllItems(db) { items ->
+                    onGamesClick = {
+                        selectedBottomItemState.value = BottomMenuItem.Games.title
+                        getAllGames(db) { items ->
+                            itemsListState.value = items
+                        }
+                        coroutineScope.launch {
+                            drawerState.close()
+                        }
+                    },
+                    onArticlesClick = {
+                        selectedBottomItemState.value = BottomMenuItem.Articles.title
+                        getAllArticles(db) {
+                                items ->
                             itemsListState.value = items
                         }
                         coroutineScope.launch {
@@ -89,19 +112,36 @@ fun MainScreen(navData: MainScreenDataObject,
             modifier = Modifier.fillMaxSize(),
             bottomBar = {
                 BottomMenu(
+                    selectedBottomItemState.value,
                     onGamesClick = {
-                        getAllItems(db) { games ->
+                        selectedBottomItemState.value = BottomMenuItem.Games.title
+                        getAllGames(db) { games ->
+                            isListEmptyState.value = games.isEmpty()
                             itemsListState.value = games
                         }
                     },
                     onArticlesClick = {
+                        selectedBottomItemState.value = BottomMenuItem.Articles.title
                         getAllArticles(db) { articles ->
+                            isListEmptyState.value = articles.isEmpty()
                             itemsListState.value = articles
                         }
                     }
                 )
             }
         ) { paddingValues ->
+
+            if (isListEmptyState.value) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "Empty List!",
+                        color = Color.Black
+                    )
+                }
+            }
             LazyVerticalGrid(
                 columns = GridCells.Fixed(1),
                 modifier = Modifier
@@ -129,7 +169,7 @@ fun MainScreen(navData: MainScreenDataObject,
     }
 }
 
-private fun getAllItems(
+private fun getAllGames(
     db : FirebaseFirestore,
     onGames: (List<Game>) -> Unit
 ) {
@@ -139,6 +179,7 @@ private fun getAllItems(
             onGames(task.toObjects(Game::class.java))
         }
 }
+
 
 private fun getAllArticles(
     db : FirebaseFirestore,
