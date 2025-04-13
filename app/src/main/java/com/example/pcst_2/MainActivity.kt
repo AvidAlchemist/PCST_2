@@ -11,12 +11,18 @@ import com.example.pcst_2.ui.data.AddArticleScreenObject
 import com.example.pcst_2.ui.add_article_screen.AddArticleScreen
 import com.example.pcst_2.ui.add_game_screen.AddGameScreen
 import com.example.pcst_2.ui.admin_panel_screen.AdminPanelScreen
-import com.example.pcst_2.ui.article_details_screen.data.ArticleNavObject
+import com.example.pcst_2.ui.article_details_screen.data.ArticleTestObject
+import com.example.pcst_2.ui.article_details_screen.data.ArticleTextObject
+import com.example.pcst_2.ui.article_details_screen.ui.ArticleTestScreen
 import com.example.pcst_2.ui.article_details_screen.ui.ArticleTextScreen
 import com.example.pcst_2.ui.data.AddGameScreenObject
 import com.example.pcst_2.ui.data.AdminPanelScreenObject
-import com.example.pcst_2.ui.game_details_screen.data.GameNavObject
-import com.example.pcst_2.ui.game_details_screen.ui.GameTextScreen
+import com.example.pcst_2.ui.game_details_screen.data.GameTaskScreenObject
+import com.example.pcst_2.ui.game_details_screen.data.GameTestScreenObject
+import com.example.pcst_2.ui.game_details_screen.data.GameTheoryScreenObject
+import com.example.pcst_2.ui.game_details_screen.ui.GameTaskScreen
+import com.example.pcst_2.ui.game_details_screen.ui.GameTestScreen
+import com.example.pcst_2.ui.game_details_screen.ui.GameTheoryScreen
 import com.example.pcst_2.ui.login.LoginScreen
 import com.example.pcst_2.ui.login.data.LoginScreenObject
 import com.example.pcst_2.ui.main_screen.MainScreen
@@ -42,13 +48,23 @@ class MainActivity : ComponentActivity() {
                         navData,
                         navController,
                         onGameClick = { game ->
-                            navController.navigate(GameNavObject(
+                            navController.navigate(GameTheoryScreenObject(
+                                key = game.key,
                                 title = game.title,
-                                description = game.theoryText
+                                theoryText = game.theoryText,
+                                taskTitle = game.taskTitle,
+                                taskText = game.taskText,
+                                taskTip = game.taskTip,
+                                taskCorrect = game.taskCorrect,
+                                testText = game.testText,
+                                testCorrect = game.testCorrect,
+                                testSomeAnswerOne = game.testSomeAnswer_1,
+                                testSomeAnswerTwo = game.testSomeAnswer_2,
+                                testSomeAnswerThree = game.testSomeAnswer_3
                             ))
                         },
-                        onArticleClick = { article ->
-                            navController.navigate(GameNavObject(
+                        onArticleClick = {article ->
+                            navController.navigate(ArticleTextObject(
                                 title = article.articleTitle,
                                 description = article.articleText
                             ))
@@ -104,14 +120,29 @@ class MainActivity : ComponentActivity() {
                     }
                 }
 
-                composable<GameNavObject> { navEntry ->
-                    val navData = navEntry.toRoute<GameNavObject>()
-                    GameTextScreen(navData)
+                composable<ArticleTextObject> { navEntry ->
+                    val navData = navEntry.toRoute<ArticleTextObject>()
+                    ArticleTextScreen(navData, navController)
                 }
 
-                composable<ArticleNavObject> { navEntry ->
-                    val navData = navEntry.toRoute<ArticleNavObject>()
-                    ArticleTextScreen(navData)
+                composable<ArticleTestObject> { navEntry ->
+                    val navData = navEntry.toRoute<ArticleTestObject>()
+                    ArticleTestScreen(navData, navController)
+                }
+
+                composable<GameTheoryScreenObject> { navEntry ->
+                    val navData = navEntry.toRoute<GameTheoryScreenObject>()
+                    GameTheoryScreen(navData, navController)
+                }
+
+                composable<GameTaskScreenObject> { navEntry ->
+                    val navData = navEntry.toRoute<GameTaskScreenObject>()
+                    GameTaskScreen(navData, navController)
+                }
+
+                composable<GameTestScreenObject> { navEntry ->
+                    val navData = navEntry.toRoute<GameTestScreenObject>()
+                    GameTestScreen(navData, navController)
                 }
             }
         }

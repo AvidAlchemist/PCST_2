@@ -15,12 +15,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.pcst_2.ui.article_details_screen.data.ArticleNavObject
+import androidx.navigation.NavHostController
+import com.example.pcst_2.ui.article_details_screen.data.ArticleTestObject
+import com.example.pcst_2.ui.article_details_screen.data.ArticleTextObject
 
-@Preview(showBackground = true)
 @Composable
 fun ArticleTextScreen(
-    navObject: ArticleNavObject = ArticleNavObject()
+    navObject: ArticleTextObject = ArticleTextObject(),
+    navController: NavHostController
 ) {
     Column(modifier = Modifier
         .fillMaxSize()
@@ -39,6 +41,13 @@ fun ArticleTextScreen(
         Button(
             modifier = Modifier.fillMaxWidth(),
             onClick = {
+                navController.popBackStack()
+                navController.navigate(
+                    ArticleTestObject(
+                        title = navObject.title,
+                        description = navObject.description
+                    )
+                )
 
             }) {
             Text(text = "Continue")

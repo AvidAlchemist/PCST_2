@@ -28,8 +28,6 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.pcst_2.R
 import com.example.pcst_2.data.Game
-import com.example.pcst_2.ui.add_game_screen.AddGameScreen
-import com.example.pcst_2.ui.game_theory_screen.GameTheoryScreen
 
 @Composable
 fun GamesListItemUI(

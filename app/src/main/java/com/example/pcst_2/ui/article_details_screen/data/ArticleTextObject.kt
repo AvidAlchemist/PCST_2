@@ -1,9 +1,9 @@
-package com.example.pcst_2.ui.game_details_screen.data
+package com.example.pcst_2.ui.article_details_screen.data
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GameNavObject(
+data class ArticleTextObject(
     val title: String = "",
     val description : String = ""
 )
