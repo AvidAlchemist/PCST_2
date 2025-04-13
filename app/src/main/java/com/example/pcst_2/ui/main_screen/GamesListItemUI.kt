@@ -36,12 +36,16 @@ fun GamesListItemUI(
     navContoller : NavHostController,
     showEditButton: Boolean = false,
     game: Game,
-    onEditClick: (Game) -> Unit = {}
+    onEditClick: (Game) -> Unit = {},
+    onGameClick: (Game) -> Unit
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
+            .clickable {
+                onGameClick(game)
+            }
             .border(
                 1.dp,
                 Color.Black,

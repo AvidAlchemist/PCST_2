@@ -11,8 +11,12 @@ import com.example.pcst_2.ui.data.AddArticleScreenObject
 import com.example.pcst_2.ui.add_article_screen.AddArticleScreen
 import com.example.pcst_2.ui.add_game_screen.AddGameScreen
 import com.example.pcst_2.ui.admin_panel_screen.AdminPanelScreen
+import com.example.pcst_2.ui.article_details_screen.data.ArticleNavObject
+import com.example.pcst_2.ui.article_details_screen.ui.ArticleTextScreen
 import com.example.pcst_2.ui.data.AddGameScreenObject
 import com.example.pcst_2.ui.data.AdminPanelScreenObject
+import com.example.pcst_2.ui.game_details_screen.data.GameNavObject
+import com.example.pcst_2.ui.game_details_screen.ui.GameTextScreen
 import com.example.pcst_2.ui.login.LoginScreen
 import com.example.pcst_2.ui.login.data.LoginScreenObject
 import com.example.pcst_2.ui.main_screen.MainScreen
@@ -37,6 +41,18 @@ class MainActivity : ComponentActivity() {
                     MainScreen(
                         navData,
                         navController,
+                        onGameClick = { game ->
+                            navController.navigate(GameNavObject(
+                                title = game.title,
+                                description = game.theoryText
+                            ))
+                        },
+                        onArticleClick = { article ->
+                            navController.navigate(GameNavObject(
+                                title = article.articleTitle,
+                                description = article.articleText
+                            ))
+                        },
                         onGameEditClick = { game ->
                             navController.navigate(AddGameScreenObject(
                                 key = game.key,
@@ -86,6 +102,16 @@ class MainActivity : ComponentActivity() {
                     AddGameScreen(navData) {
                         navController.popBackStack()
                     }
+                }
+
+                composable<GameNavObject> { navEntry ->
+                    val navData = navEntry.toRoute<GameNavObject>()
+                    GameTextScreen(navData)
+                }
+
+                composable<ArticleNavObject> { navEntry ->
+                    val navData = navEntry.toRoute<ArticleNavObject>()
+                    ArticleTextScreen(navData)
                 }
             }
         }
