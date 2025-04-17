@@ -4,6 +4,12 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ArticleTextObject(
-    val title: String = "",
-    val description : String = ""
+    val key : String = "",
+    val articleTitle : String = "",
+    val articleText : String = "",
+    val articleTestText : String = "",
+    val articleTestCorrect : String = "",
+    val articleTestSomeAnswerOne : String = "",
+    val articleTestSomeAnswerTwo : String = "",
+    val articleTestSomeAnswerThree : String = ""
 )

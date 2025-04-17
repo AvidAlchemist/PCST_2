@@ -58,15 +58,21 @@ class MainActivity : ComponentActivity() {
                                 taskCorrect = game.taskCorrect,
                                 testText = game.testText,
                                 testCorrect = game.testCorrect,
-                                testSomeAnswerOne = game.testSomeAnswer_1,
-                                testSomeAnswerTwo = game.testSomeAnswer_2,
-                                testSomeAnswerThree = game.testSomeAnswer_3
+                                testSomeAnswerOne = game.testSomeAnswerOne,
+                                testSomeAnswerTwo = game.testSomeAnswerTwo,
+                                testSomeAnswerThree = game.testSomeAnswerThree
                             ))
                         },
                         onArticleClick = {article ->
                             navController.navigate(ArticleTextObject(
-                                title = article.articleTitle,
-                                description = article.articleText
+                                key = article.key,
+                                articleTitle = article.articleTitle,
+                                articleText = article.articleText,
+                                articleTestText = article.articleTestText,
+                                articleTestCorrect = article.articleTestCorrect,
+                                articleTestSomeAnswerOne = article.articleTestSomeAnswerOne,
+                                articleTestSomeAnswerTwo = article.articleTestSomeAnswerTwo,
+                                articleTestSomeAnswerThree = article.articleTestSomeAnswerThree
                             ))
                         },
                         onGameEditClick = { game ->
@@ -80,9 +86,9 @@ class MainActivity : ComponentActivity() {
                                 taskCorrect = game.taskCorrect,
                                 testText = game.testText,
                                 testCorrect = game.testCorrect,
-                                testSomeAnswer_1 = game.testSomeAnswer_1,
-                                testSomeAnswer_2 = game.testSomeAnswer_2,
-                                testSomeAnswer_3 = game.testSomeAnswer_3
+                                testSomeAnswerOne = game.testSomeAnswerOne,
+                                testSomeAnswerTwo = game.testSomeAnswerTwo,
+                                testSomeAnswerThree = game.testSomeAnswerThree
                             ))
                         },
                         onArticleEditClick = {article ->
@@ -92,9 +98,9 @@ class MainActivity : ComponentActivity() {
                                 articleText = article.articleText,
                                 articleTestText = article.articleTestText,
                                 articleTestCorrect = article.articleTestCorrect,
-                                articleTestSomeAnswer_1 = article.articleTestSomeAnswer_1,
-                                articleTestSomeAnswer_2 = article.articleTestSomeAnswer_2,
-                                articleTestSomeAnswer_3 = article.articleTestSomeAnswer_3
+                                articleTestSomeAnswerOne = article.articleTestSomeAnswerOne,
+                                articleTestSomeAnswerTwo = article.articleTestSomeAnswerTwo,
+                                articleTestSomeAnswerThree = article.articleTestSomeAnswerThree
                             ))
                         }
                     ) {

@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -27,7 +26,6 @@ import androidx.compose.ui.unit.sp
 import com.example.pcst_2.R
 import com.example.pcst_2.data.Article
 import com.example.pcst_2.ui.data.AddArticleScreenObject
-import com.example.pcst_2.ui.data.AddGameScreenObject
 import com.example.pcst_2.ui.login.LoginButton
 import com.example.pcst_2.ui.login.RoundedCornerTextField
 import com.example.pcst_2.ui.theme.BoxFilterColor
@@ -57,14 +55,14 @@ fun AddArticleScreen(
     val articleTestCorrect = remember {
         mutableStateOf(navData.articleTestCorrect)
     }
-    val articleTestSomeAnswer_1 = remember {
-        mutableStateOf(navData.articleTestSomeAnswer_1)
+    val articleTestSomeAnswerOne = remember {
+        mutableStateOf(navData.articleTestSomeAnswerOne)
     }
-    val articleTestSomeAnswer_2 = remember {
-        mutableStateOf(navData.articleTestSomeAnswer_2)
+    val articleTestSomeAnswerTwo = remember {
+        mutableStateOf(navData.articleTestSomeAnswerTwo)
     }
-    val articleTestSomeAnswer_3 = remember {
-        mutableStateOf(navData.articleTestSomeAnswer_3)
+    val articleTestSomeAnswerThree = remember {
+        mutableStateOf(navData.articleTestSomeAnswerThree)
     }
 
     val firestore = remember {
@@ -107,7 +105,7 @@ fun AddArticleScreen(
 //        Spacer(modifier = Modifier.height(15.dp))
 
         Text(
-            text = "Add new Article",
+            text = "Добавить статью",
             color = Color.White,
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp,
@@ -119,7 +117,7 @@ fun AddArticleScreen(
             singleLine = false,
             maxLines = 2,
             text = articleTitle.value,
-            label = "Title"
+            label = "Заголовок"
         ) {
             articleTitle.value = it
         }
@@ -128,7 +126,7 @@ fun AddArticleScreen(
             singleLine = false,
             maxLines = 2,
             text = articleText.value,
-            label = "Text"
+            label = "Текст"
         ) {
             articleText.value = it
         }
@@ -137,7 +135,7 @@ fun AddArticleScreen(
             singleLine = false,
             maxLines = 2,
             text = articleTestText.value,
-            label = "Test Text"
+            label = "Текст теста"
         ) {
             articleTestText.value = it
         }
@@ -145,37 +143,37 @@ fun AddArticleScreen(
         RoundedCornerTextField(
             singleLine = false,
             text = articleTestCorrect.value,
-            label = "Correct Answer"
+            label = "Правильный ответ"
         ) {
             articleTestCorrect.value = it
         }
         Spacer(modifier = Modifier.height(5.dp))
         RoundedCornerTextField(
             singleLine = false,
-            text = articleTestSomeAnswer_1.value,
-            label = "Some Answer 1"
+            text = articleTestSomeAnswerOne.value,
+            label = "Ответ 1"
         ) {
-            articleTestSomeAnswer_1.value = it
+            articleTestSomeAnswerOne.value = it
         }
         Spacer(modifier = Modifier.height(5.dp))
         RoundedCornerTextField(
             singleLine = false,
-            text = articleTestSomeAnswer_2.value,
-            label = "Some Answer 2"
+            text = articleTestSomeAnswerTwo.value,
+            label = "Ответ 2"
         ) {
-            articleTestSomeAnswer_2.value = it
+            articleTestSomeAnswerTwo.value = it
         }
         Spacer(modifier = Modifier.height(5.dp))
         RoundedCornerTextField(
             singleLine = false,
-            text = articleTestSomeAnswer_3.value,
-            label = "Some Answer 3"
+            text = articleTestSomeAnswerThree.value,
+            label = "Ответ 3"
         ) {
-            articleTestSomeAnswer_3.value = it
+            articleTestSomeAnswerThree.value = it
         }
         Spacer(modifier = Modifier.height(5.dp))
 
-        LoginButton(text = "Save") {
+        LoginButton(text = "Сохранить") {
             saveArticleToFireStore(
                 firestore,
                 Article(
@@ -183,9 +181,9 @@ fun AddArticleScreen(
                     articleText = articleText.value,
                     articleTestText = articleTestText.value,
                     articleTestCorrect = articleTestCorrect.value,
-                    articleTestSomeAnswer_1 = articleTestSomeAnswer_1.value,
-                    articleTestSomeAnswer_2 = articleTestSomeAnswer_2.value,
-                    articleTestSomeAnswer_3 = articleTestSomeAnswer_3.value
+                    articleTestSomeAnswerOne = articleTestSomeAnswerOne.value,
+                    articleTestSomeAnswerTwo = articleTestSomeAnswerTwo.value,
+                    articleTestSomeAnswerThree = articleTestSomeAnswerThree.value
                 ),
                 onSaved = {
                     onSaved()

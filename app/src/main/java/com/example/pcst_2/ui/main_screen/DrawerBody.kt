@@ -43,8 +43,8 @@ fun DrawerBody(
     onArticlesClick: () -> Unit = {}
 ) {
     val categoriesList = listOf(
-        "Games",
-        "Articles"
+        "Мини-игры",
+        "Статьи"
     )
 
     val isAdminState = remember {
@@ -75,7 +75,7 @@ fun DrawerBody(
         ) {
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "Categories",
+                text = "Категории",
                 fontSize = 20.sp,
                 color = Color.Black,
                 fontWeight = FontWeight.Bold
@@ -134,7 +134,7 @@ fun DrawerBody(
                     containerColor = DarkTransparentBlue
                 )
             ) {
-                Text(text = "Admin panel")
+                Text(text = "Панель управления")
             }
         }
     }

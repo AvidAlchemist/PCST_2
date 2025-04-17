@@ -23,10 +23,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.pcst_2.ui.game_details_screen.data.GameTaskScreenObject
 import com.example.pcst_2.ui.game_details_screen.data.GameTestScreenObject
+import com.example.pcst_2.ui.theme.GrayLight
 
 @Composable
 fun GameTaskScreen(navData: GameTaskScreenObject, navController: NavHostController) {
@@ -39,7 +43,9 @@ fun GameTaskScreen(navData: GameTaskScreenObject, navController: NavHostControll
             .padding(16.dp)
     ) {
         Text(
-            text = navData.title,
+            text = navData.title.replace("*space*","\n"),
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Bold,
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier
                 .padding(bottom = 8.dp)
@@ -47,7 +53,8 @@ fun GameTaskScreen(navData: GameTaskScreenObject, navController: NavHostControll
                 .wrapContentSize(Alignment.Center)
         )
         Text(
-            text = navData.taskText,
+            text = navData.taskText.replace("*space*","\n"),
+            fontSize = 18.sp,
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.padding(bottom = 8.dp)
         )
@@ -55,11 +62,13 @@ fun GameTaskScreen(navData: GameTaskScreenObject, navController: NavHostControll
             Icon(
                 imageVector = Icons.Filled.Search,
                 contentDescription = "Tip",
-                modifier = Modifier.size(16.dp)
+                modifier = Modifier.size(20.dp)
             )
             Spacer(modifier = Modifier.width(4.dp))
             Text(
-                text = navData.taskTip,
+                text = navData.taskTip.replace("*space*","\n"),
+                fontSize = 16.sp,
+                color = Color.DarkGray,
                 style = MaterialTheme.typography.bodySmall
             )
         }
@@ -68,14 +77,14 @@ fun GameTaskScreen(navData: GameTaskScreenObject, navController: NavHostControll
             value = inputText.value,
             onValueChange = { inputText.value = it
                 showError.value = false},
-            label = { Text("Enter your answer") },
+            label = { Text("Введите ответ") },
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentSize(Alignment.Center)
         )
 
         if (showError.value) {Text(
-            text = "Wrong answer, try again",
+            text = "Неправильный ответ!",
             color = Color.Red,
             modifier = Modifier.padding(top = 4.dp)
         )
@@ -86,7 +95,7 @@ fun GameTaskScreen(navData: GameTaskScreenObject, navController: NavHostControll
         Spacer(modifier = Modifier.weight(1f))
         Button(
             onClick = {
-                if (inputText.value == navData.taskCorrect) {
+                if (inputText.value.uppercase() == navData.taskCorrect.uppercase()) {
                     showError.value = false
                     navController.popBackStack()
                     navController.navigate(
@@ -113,7 +122,7 @@ fun GameTaskScreen(navData: GameTaskScreenObject, navController: NavHostControll
                 .fillMaxWidth()
                 .wrapContentSize(Alignment.Center)
         ) {
-            Text("Continue")
+            Text("Продолжить")
         }
     }
 }

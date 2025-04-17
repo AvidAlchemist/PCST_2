@@ -18,7 +18,7 @@ fun BottomMenu(
     val items = listOf(
         BottomMenuItem.Games,
         BottomMenuItem.Articles,
-        BottomMenuItem.Settings
+//        BottomMenuItem.Settings
     )
 
     NavigationBar {

@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.pcst_2.ui.game_details_screen.data.GameTestScreenObject
 
@@ -43,7 +44,7 @@ fun GameTestScreen(
             .padding(16.dp)
     ) {
         Text(
-            text = "Test",
+            text = "Закрепление пройденного",
             style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
             modifier = Modifier
                 .padding(bottom = 8.dp)
@@ -51,7 +52,9 @@ fun GameTestScreen(
                 .wrapContentSize(Alignment.Center)
         )
         Text(
-            text = navData.testText, style = MaterialTheme.typography.bodyMedium,
+            text = navData.testText.replace("*space*","\n"),
+            fontSize = 18.sp,
+            style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.padding(bottom = 16.dp)
         )
 
@@ -69,7 +72,7 @@ fun GameTestScreen(
         // Error message (initially invisible)
         if (showError.value) {
             Text(
-                text = "Wrong answer, try again",
+                text = "Неправильный ответ!",
                 color = Color.Red,
                 modifier = Modifier.padding(top = 4.dp)
             )
@@ -90,7 +93,7 @@ fun GameTestScreen(
                 .fillMaxWidth()
                 .wrapContentSize(Alignment.Center)
         ) {
-            Text("Check")
+            Text("Проверить")
         }
     }
 }

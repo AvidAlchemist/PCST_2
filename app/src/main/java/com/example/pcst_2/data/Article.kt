@@ -7,7 +7,7 @@ data class Article(
     val articleText : String = "",
     val articleTestText : String = "",
     val articleTestCorrect : String = "",
-    val articleTestSomeAnswer_1 : String = "",
-    val articleTestSomeAnswer_2 : String = "",
-    val articleTestSomeAnswer_3 : String = ""
+    val articleTestSomeAnswerOne : String = "",
+    val articleTestSomeAnswerTwo : String = "",
+    val articleTestSomeAnswerThree : String = ""
 )
