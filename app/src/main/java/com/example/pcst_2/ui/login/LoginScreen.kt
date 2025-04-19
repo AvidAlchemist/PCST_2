@@ -108,7 +108,7 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(10.dp))
         RoundedCornerTextField(
             text = passwordState.value,
-            label = "Password"
+            label = "Пароль"
         ) {
             passwordState.value = it
         }
@@ -120,7 +120,7 @@ fun LoginScreen(
                 textAlign = TextAlign.Center
             )
         }
-        LoginButton(text = "Sign In") {
+        LoginButton(text = "Войти") {
             signIn(
                 auth = auth,
                 emailState.value,
@@ -133,7 +133,7 @@ fun LoginScreen(
                 }
             )
         }
-        LoginButton(text = "Sign Up") {
+        LoginButton(text = "Регистрация") {
             signUp(
                 auth = auth,
                 emailState.value,
@@ -157,7 +157,7 @@ fun signIn(
     onSignInFailure: (String) -> Unit
 ) {
     if (email.isBlank() || password.isBlank()) {
-        onSignInFailure("Email and password cannot be empty")
+        onSignInFailure("Email и пароль не могут быть пустыми")
         return
     }
 
@@ -173,7 +173,7 @@ fun signIn(
             }
         }
         .addOnFailureListener{
-            onSignInFailure(it.message ?: "Sign In error")
+            onSignInFailure(it.message ?: "Ошибка входа")
         }
 
 }
@@ -186,7 +186,7 @@ fun signUp(
     onSignUpFailure: (String) -> Unit
 ) {
     if (email.isBlank() || password.isBlank()) {
-        onSignUpFailure("Email and password cannot be empty")
+        onSignUpFailure("Email и пароль не могут быть пустыми")
         return
     }
 
@@ -202,7 +202,7 @@ fun signUp(
             }
         }
         .addOnFailureListener{
-            onSignUpFailure(it.message ?: "Sign Up error")
+            onSignUpFailure(it.message ?: "Ошибка регистрации")
         }
 
 }

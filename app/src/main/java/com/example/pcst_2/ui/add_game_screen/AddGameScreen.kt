@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -31,10 +30,8 @@ import com.example.pcst_2.ui.login.LoginButton
 import com.example.pcst_2.ui.login.RoundedCornerTextField
 import com.example.pcst_2.ui.theme.BoxFilterColor
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import java.lang.Error
 
 @Preview(showBackground = true)
 @Composable
@@ -71,13 +68,13 @@ fun AddGameScreen(
         mutableStateOf(navData.testCorrect)
     }
     val testSomeAnswer_1 = remember {
-        mutableStateOf(navData.testSomeAnswer_1)
+        mutableStateOf(navData.testSomeAnswerOne)
     }
     val testSomeAnswer_2 = remember {
-        mutableStateOf(navData.testSomeAnswer_2)
+        mutableStateOf(navData.testSomeAnswerTwo)
     }
     val testSomeAnswer_3 = remember {
-        mutableStateOf(navData.testSomeAnswer_3)
+        mutableStateOf(navData.testSomeAnswerThree)
     }
 
     val firestore = remember {
@@ -119,7 +116,7 @@ fun AddGameScreen(
 //        Spacer(modifier = Modifier.height(10.dp))
 
         Text(
-            text = "Add new Game",
+            text = "Добавить мини-игру",
             color = Color.White,
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp,
@@ -131,7 +128,7 @@ fun AddGameScreen(
             singleLine = false,
             maxLines = 2,
             text = title.value,
-            label = "Title"
+            label = "Заголовок"
         ) {
             title.value = it
         }
@@ -140,7 +137,7 @@ fun AddGameScreen(
             singleLine = false,
             maxLines = 2,
             text = theoryText.value,
-            label = "Theory Text"
+            label = "Текст теории"
         ) {
             theoryText.value = it
         }
@@ -149,7 +146,7 @@ fun AddGameScreen(
             singleLine = false,
             maxLines = 2,
             text = taskTitle.value,
-            label = "Task Title"
+            label = "Заголовок задания"
         ) {
             taskTitle.value = it
         }
@@ -157,7 +154,7 @@ fun AddGameScreen(
         RoundedCornerTextField(
             singleLine = false,
             text = taskText.value,
-            label = "Task Text"
+            label = "Текст задания"
         ) {
             taskText.value = it
         }
@@ -165,7 +162,7 @@ fun AddGameScreen(
         RoundedCornerTextField(
             singleLine = false,
             text = taskTip.value,
-            label = "Task Tip"
+            label = "Совет по заданию"
         ) {
             taskTip.value = it
         }
@@ -173,7 +170,7 @@ fun AddGameScreen(
         RoundedCornerTextField(
             singleLine = false,
             text = taskCorrect.value,
-            label = "Task Correct"
+            label = "Правильный ответ(задание)"
         ) {
             taskCorrect.value = it
         }
@@ -181,7 +178,7 @@ fun AddGameScreen(
         RoundedCornerTextField(
             singleLine = false,
             text = testText.value,
-            label = "Test Text"
+            label = "Текст теста"
         ) {
             testText.value = it
         }
@@ -189,7 +186,7 @@ fun AddGameScreen(
         RoundedCornerTextField(
             singleLine = false,
             text = testCorrect.value,
-            label = "Test Correct"
+            label = "Правильный ответ(тест)"
         ) {
             testCorrect.value = it
         }
@@ -197,7 +194,7 @@ fun AddGameScreen(
         RoundedCornerTextField(
             singleLine = false,
             text = testSomeAnswer_1.value,
-            label = "Some Answer 1"
+            label = "Ответ 1"
         ) {
             testSomeAnswer_1.value = it
         }
@@ -205,7 +202,7 @@ fun AddGameScreen(
         RoundedCornerTextField(
             singleLine = false,
             text = testSomeAnswer_2.value,
-            label = "Some Answer 2"
+            label = "Ответ 2"
         ) {
             testSomeAnswer_2.value = it
         }
@@ -213,13 +210,13 @@ fun AddGameScreen(
         RoundedCornerTextField(
             singleLine = false,
             text = testSomeAnswer_3.value,
-            label = "Some Answer 3"
+            label = "Ответ 3"
         ) {
             testSomeAnswer_3.value = it
         }
         Spacer(modifier = Modifier.height(5.dp))
 
-        LoginButton(text = "Save") {
+        LoginButton(text = "Сохранить") {
             saveGameToFireStore(
                 firestore = firestore,
                 game = Game(
@@ -232,9 +229,9 @@ fun AddGameScreen(
                     taskCorrect = taskCorrect.value,
                     testText = testText.value,
                     testCorrect = testCorrect.value,
-                    testSomeAnswer_1 = testSomeAnswer_1.value,
-                    testSomeAnswer_2 = testSomeAnswer_2.value,
-                    testSomeAnswer_3 = testSomeAnswer_3.value
+                    testSomeAnswerOne = testSomeAnswer_1.value,
+                    testSomeAnswerTwo = testSomeAnswer_2.value,
+                    testSomeAnswerThree = testSomeAnswer_3.value
                 ),
                 onSaved = {
                     onSaved()

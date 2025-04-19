@@ -1,7 +1,9 @@
-package com.example.pcst_2.data
+package com.example.pcst_2.ui.article_details_screen.data
 
-//Нужно задать значение по умолчанию во избежание ошибки
-data class Article(
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class ArticleTextObject(
     val key : String = "",
     val articleTitle : String = "",
     val articleText : String = "",

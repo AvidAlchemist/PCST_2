@@ -1,6 +1,7 @@
 package com.example.pcst_2.ui.main_screen
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -34,11 +35,15 @@ fun ArticlesListItemUI(
     showEditButton: Boolean = false,
     article: Article,
     onEditClick: (Article) -> Unit = {},
+    onArticleClick: (Article) -> Unit
     ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
+            .clickable {
+                onArticleClick(article)
+            }
             .border(
                 1.dp,
                 Color.Black,

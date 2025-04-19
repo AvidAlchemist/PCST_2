@@ -38,7 +38,9 @@ fun MainScreen(navData: MainScreenDataObject,
                navController: NavHostController,
                onGameEditClick: (Game) -> Unit,
                onArticleEditClick: (Article) -> Unit,
-               onAdminClick: () -> Unit
+               onGameClick:(Game) -> Unit,
+               onArticleClick: (Article) -> Unit,
+               onAdminClick: () -> Unit,
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
@@ -95,8 +97,7 @@ fun MainScreen(navData: MainScreenDataObject,
                     },
                     onArticlesClick = {
                         selectedBottomItemState.value = BottomMenuItem.Articles.title
-                        getAllArticles(db) {
-                                items ->
+                        getAllArticles(db) { items ->
                             itemsListState.value = items
                         }
                         coroutineScope.launch {
@@ -149,19 +150,34 @@ fun MainScreen(navData: MainScreenDataObject,
                     .padding(paddingValues)
             ) {
                 items(itemsListState.value) { item ->
-                    when(item) {
+                    when (item) {
                         is Game -> {
-                            GamesListItemUI(navController,isAdminState.value, item) { game ->
-                                onGameEditClick(game)
-                            }
-                            Log.d("NavigationTest", "GAME FOUND")
+                            GamesListItemUI(
+                                navController,
+                                isAdminState.value,
+                                item,
+                                onEditClick = {
+                                    onGameEditClick(it)
+                                },
+                                onGameClick = { game ->
+                                    onGameClick(game)
+                                }
+                            )
                         }
+
                         is Article -> {
-                            ArticlesListItemUI(navController, isAdminState.value, item) { article ->
-                                onArticleEditClick(article)
-                            }
-                            Log.d("NavigationTest","ARTICLE FOUND")
-                            }
+                            ArticlesListItemUI(
+                                navController,
+                                isAdminState.value,
+                                item,
+                                onEditClick = {
+                                    onArticleEditClick(it)
+                                },
+                                onArticleClick = { article ->
+                                    onArticleClick(article)
+                                }
+                            )
+                        }
                     }
                 }
             }

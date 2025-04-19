@@ -4,12 +4,12 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AddArticleScreenObject(
-val key : String = "",
-val articleTitle : String = "",
-val articleText : String = "",
-val articleTestText : String = "",
-val articleTestCorrect : String = "",
-val articleTestSomeAnswer_1 : String = "",
-val articleTestSomeAnswer_2 : String = "",
-val articleTestSomeAnswer_3 : String = ""
+    val key : String = "",
+    val articleTitle : String = "",
+    val articleText : String = "",
+    val articleTestText : String = "",
+    val articleTestCorrect : String = "",
+    val articleTestSomeAnswerOne : String = "",
+    val articleTestSomeAnswerTwo : String = "",
+    val articleTestSomeAnswerThree : String = ""
 )

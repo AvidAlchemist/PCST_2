@@ -15,19 +15,19 @@ sealed class BottomMenuItem(
 
     object Games : BottomMenuItem(
         route = "games",
-        title = "Games",
+        title = "Мини-игры",
         iconId = R.drawable.ic_games
     )
 
     object Articles : BottomMenuItem(
         route = "articles",
-        title = "Articles",
+        title = "Статьи",
         iconId = R.drawable.ic_articles
     )
 
-    object Settings : BottomMenuItem(
-        route = "settings",
-        title = "Settings",
-        iconId = R.drawable.ic_settings
-    )
+//    object Settings : BottomMenuItem(
+//        route = "settings",
+//        title = "Settings",
+//        iconId = R.drawable.ic_settings
+//    )
 }

@@ -28,20 +28,22 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.pcst_2.R
 import com.example.pcst_2.data.Game
-import com.example.pcst_2.ui.add_game_screen.AddGameScreen
-import com.example.pcst_2.ui.game_theory_screen.GameTheoryScreen
 
 @Composable
 fun GamesListItemUI(
     navContoller : NavHostController,
     showEditButton: Boolean = false,
     game: Game,
-    onEditClick: (Game) -> Unit = {}
+    onEditClick: (Game) -> Unit = {},
+    onGameClick: (Game) -> Unit
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
+            .clickable {
+                onGameClick(game)
+            }
             .border(
                 1.dp,
                 Color.Black,
