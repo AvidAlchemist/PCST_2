@@ -51,6 +51,7 @@ fun ArticleTextScreen(
         ) {
             Text(
                 text = navObject.articleText.replace("*space*","\n"),
+                fontSize = 18.sp,
                 style = MaterialTheme.typography.bodyMedium
             )
         }

@@ -1,5 +1,6 @@
 package com.example.pcst_2.ui.article_details_screen.ui
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -87,6 +88,8 @@ fun ArticleTestScreen(
         Button(
             onClick = {
                 if (selectedAnswer.value == navData.articleTestCorrect) {
+                    Toast.makeText(navController.context,
+                        "Статья завершена успешно!", Toast.LENGTH_SHORT).show()
                     navController.popBackStack()
                 } else {
                     showError.value = true

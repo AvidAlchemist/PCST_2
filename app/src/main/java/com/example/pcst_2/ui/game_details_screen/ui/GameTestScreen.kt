@@ -1,5 +1,7 @@
 package com.example.pcst_2.ui.game_details_screen.ui
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -84,6 +86,8 @@ fun GameTestScreen(
         Button(
             onClick = {
                 if (selectedAnswer.value == navData.testCorrect) {
+                    Toast.makeText(navController.context,
+                        "Мини-игра пройдена успешно!", Toast.LENGTH_SHORT).show()
                     navController.popBackStack()
                 } else {
                     showError.value = true
